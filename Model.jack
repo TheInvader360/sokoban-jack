@@ -1,0 +1,24 @@
+class Model {
+    field int tickAccumulator;
+
+    constructor Model new() {
+        let tickAccumulator = 0;
+        return this;
+    }
+
+    method void update() {
+        let tickAccumulator = tickAccumulator + 1;
+        if (tickAccumulator > 20) {
+            let tickAccumulator = 0;
+        }
+        return;
+    }
+
+    method int getTickAccumulator() {
+        return tickAccumulator;
+    }
+
+    method void dispose() {
+        return;
+    }
+}

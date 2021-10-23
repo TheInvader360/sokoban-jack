@@ -1,0 +1,59 @@
+class Controller {
+    field Model model;
+    field boolean running;
+
+    constructor Controller new(Model m) {
+        let model = m;
+        let running = true;
+        return this;
+    }
+
+    method void startNewGame() {
+        //TODO
+        return;
+    }
+
+    method boolean isRunning() {
+        return running;
+    }
+
+    method void handleInput() {
+        var char key;
+
+        let key = Keyboard.keyPressed();
+
+        if (~(key = 0)) {
+            if (~((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R()) | (key = 32) | (key = 140))) {
+                return;
+            }
+
+            if (key = Direction.U()) {
+                //TODO: tryMovePlayer(direction.U)
+            }
+            if (key = Direction.D()) {
+                //TODO: tryMovePlayer(direction.D)
+            }
+            if (key = Direction.L()) {
+                //TODO: tryMovePlayer(direction.L)
+            }
+            if (key = Direction.R()) {
+                //TODO: tryMovePlayer(direction.R)
+            }
+            if (key = 32) {
+                // handle space key
+                //TODO...
+            }
+            if (key = 140) {
+                // handle escape key
+                let running = false;
+            }
+        }
+
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

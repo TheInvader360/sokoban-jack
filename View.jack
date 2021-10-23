@@ -1,0 +1,72 @@
+class View {
+    field Model model;
+
+    constructor View new(Model m) {
+        let model = m;
+        return this;
+    }
+
+    method void draw() {
+        var int x, y;
+
+        // draw some test sprites
+        let x = 1;
+        let y = 1;
+        while (y < 15) {
+            while (x < 31) {
+                if ((x = 1) | (x = 30) | (y = 1) | (y = 14)) {
+                    if (model.getTickAccumulator() < 3) {
+                        do Sprites.drawBox(x + (y * 512));
+                    }
+                    else {
+                        if (model.getTickAccumulator() < 6) {
+                            do Sprites.drawGoal(x + (y * 512));
+                        }
+                        else {
+                            if (model.getTickAccumulator() < 9) {
+                                do Sprites.drawGoalBox(x + (y * 512));
+                            }
+                            else {
+                                if (model.getTickAccumulator() < 12) {
+                                    do Sprites.drawGoalPlayer(x + (y * 512));
+                                }
+                                else {
+                                    if (model.getTickAccumulator() < 15) {
+                                        do Sprites.drawPlayer(x + (y * 512));
+                                    }
+                                    else {
+                                        if (model.getTickAccumulator() < 18) {
+                                            do Sprites.drawWall(x + (y * 512));
+                                        }
+                                        else {
+                                            do Sprites.drawClear(x + (y * 512));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                let x = x + 1;
+            }
+            let y = y + 1;
+            let x = 1;
+        }
+
+        // clear part of the screen
+        do Screen.setColor(false);
+        do Screen.drawRectangle(0, 243, 15, 253);
+
+        // draw the tick accumulator's current value
+        do Screen.setColor(true);
+        do Output.moveCursor(22, 0);
+        do Output.printInt(model.getTickAccumulator());
+
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
