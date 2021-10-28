@@ -1,45 +1,54 @@
 class View {
     field Model model;
 
-    constructor View new(Model m) {
-        let model = m;
+    constructor View new(Model aModel) {
+        let model = aModel;
         return this;
     }
 
     method void draw() {
         var int x, y;
+        var Player player;
+
+        let player = model.getPlayer();
 
         // draw some test sprites
         let x = 1;
         let y = 1;
         while (y < 15) {
             while (x < 31) {
-                if ((x = 1) | (x = 30) | (y = 1) | (y = 14)) {
-                    if (model.getTickAccumulator() < 3) {
+                if ((x > 0) | (x < 31) | (y > 0) | (y < 15)) {
+                    if (model.getTickAccumulator() < 2) {
                         do Sprites.drawBox(x + (y * 512));
                     }
                     else {
-                        if (model.getTickAccumulator() < 6) {
+                        if (model.getTickAccumulator() < 4) {
                             do Sprites.drawGoal(x + (y * 512));
                         }
                         else {
-                            if (model.getTickAccumulator() < 9) {
+                            if (model.getTickAccumulator() < 6) {
                                 do Sprites.drawGoalBox(x + (y * 512));
                             }
                             else {
-                                if (model.getTickAccumulator() < 12) {
+                                if (model.getTickAccumulator() < 8) {
                                     do Sprites.drawGoalPlayer(x + (y * 512));
                                 }
                                 else {
-                                    if (model.getTickAccumulator() < 15) {
+                                    if (model.getTickAccumulator() < 10) {
                                         do Sprites.drawPlayer(x + (y * 512));
                                     }
                                     else {
-                                        if (model.getTickAccumulator() < 18) {
+                                        if (model.getTickAccumulator() < 12) {
                                             do Sprites.drawWall(x + (y * 512));
                                         }
                                         else {
-                                            do Sprites.drawClear(x + (y * 512));
+                                            if ((x = player.getX()) & (y = player.getY())) {
+                                                //draw the player
+                                                do Sprites.drawPlayer(player.getX() + (player.getY() * 512));
+                                            }
+                                            else {
+                                                do Sprites.drawClear(x + (y * 512));
+                                            }
                                         }
                                     }
                                 }

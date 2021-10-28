@@ -2,8 +2,8 @@ class Controller {
     field Model model;
     field boolean running;
 
-    constructor Controller new(Model m) {
-        let model = m;
+    constructor Controller new(Model aModel) {
+        let model = aModel;
         let running = true;
         return this;
     }
@@ -27,17 +27,8 @@ class Controller {
                 return;
             }
 
-            if (key = Direction.U()) {
-                //TODO: tryMovePlayer(direction.U)
-            }
-            if (key = Direction.D()) {
-                //TODO: tryMovePlayer(direction.D)
-            }
-            if (key = Direction.L()) {
-                //TODO: tryMovePlayer(direction.L)
-            }
-            if (key = Direction.R()) {
-                //TODO: tryMovePlayer(direction.R)
+            if ((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R())) {
+                do tryMovePlayer(key);
             }
             if (key = 32) {
                 // handle space key
@@ -48,6 +39,54 @@ class Controller {
                 let running = false;
             }
         }
+
+        return;
+    }
+
+    method void tryMovePlayer(Direction aDirection) {
+        var Player player;
+        var int currentX, currentY, targetX, targetY, nextX, nextY;
+
+        let player = model.getPlayer();
+        let currentX = player.getX();
+        let currentY = player.getY();
+        let targetX = currentX;
+        let targetY = currentY;
+        let nextX = targetX;
+        let nextY = targetY;
+
+        if (aDirection = Direction.U()) {
+            let targetY = targetY - 1;
+            let nextY = nextY - 2;
+            if (targetY < 2) {
+                let targetY = 2;
+            }
+        }
+        if (aDirection = Direction.D()) {
+            let targetY = targetY + 1;
+            let nextY = nextY + 2;
+            if (targetY > 13) {
+                let targetY = 13;
+            }
+        }
+        if (aDirection = Direction.L()) {
+            let targetX = targetX - 1;
+            let nextX = nextX - 2;
+            if (targetX < 2) {
+                let targetX = 2;
+            }
+        }
+        if (aDirection = Direction.R()) {
+            let targetX = targetX + 1;
+            let nextX = nextX + 2;
+            if (targetX > 29) {
+                let targetX = 29;
+            }
+        }
+
+        //TODO: collision handling logic!
+
+        do player.moveTo(targetX, targetY);
 
         return;
     }

@@ -1,8 +1,10 @@
 class Model {
     field int tickAccumulator;
+    field Player player; //TODO: model has a board, board has a player...
 
     constructor Model new() {
         let tickAccumulator = 0;
+        let player = Player.new(5, 5);
         return this;
     }
 
@@ -18,7 +20,13 @@ class Model {
         return tickAccumulator;
     }
 
+    method Player getPlayer() {
+        return player;
+    }
+
     method void dispose() {
+        do player.dispose();
+        do Memory.deAlloc(this);
         return;
     }
 }
