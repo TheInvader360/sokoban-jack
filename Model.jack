@@ -1,10 +1,14 @@
 class Model {
+    field LevelManager lm;
+    field Board board;
+    field State state;
     field int tickAccumulator;
-    field Player player; //TODO: model has a board, board has a player...
 
     constructor Model new() {
+        let lm = LevelManager.new();
+        let board = Board.new(7, 3, "########@ $ .########"); //TODO: handle this via the LevelManager!
+        let state = State.StatePlaying();
         let tickAccumulator = 0;
-        let player = Player.new(5, 5);
         return this;
     }
 
@@ -20,12 +24,13 @@ class Model {
         return tickAccumulator;
     }
 
-    method Player getPlayer() {
-        return player;
+    method Board getBoard() {
+        return board;
     }
 
     method void dispose() {
-        do player.dispose();
+        do lm.dispose();
+        do board.dispose();
         do Memory.deAlloc(this);
         return;
     }

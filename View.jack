@@ -8,9 +8,11 @@ class View {
 
     method void draw() {
         var int x, y;
+        var Board board;
         var Player player;
 
-        let player = model.getPlayer();
+        let board = model.getBoard();
+        let player = board.getPlayer();
 
         // draw some test sprites
         let x = 1;

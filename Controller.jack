@@ -44,10 +44,12 @@ class Controller {
     }
 
     method void tryMovePlayer(Direction aDirection) {
+        var Board board;
         var Player player;
         var int currentX, currentY, targetX, targetY, nextX, nextY;
 
-        let player = model.getPlayer();
+        let board = model.getBoard();
+        let player = board.getPlayer();
         let currentX = player.getX();
         let currentY = player.getY();
         let targetX = currentX;

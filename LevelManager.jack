@@ -1,0 +1,54 @@
+class LevelManager {
+    field int currentLevelNumber, finalLevelNumber;
+    field Array levels;
+
+    // creates a level manager
+    constructor LevelManager new() {
+        let currentLevelNumber = 0;
+        let finalLevelNumber = 2;
+        let levels = Array.new(finalLevelNumber+1);
+        let levels[0] = Level.new(0, 0, "");
+        let levels[1] = Level.new(7, 3, "########@ $ .########");
+        let levels[2] = Level.new(3, 7, "####.##$##@##$##.####");
+
+        return this;
+    }
+
+    // returns the current level number
+    method int getCurrentLevelNumber() {
+        return currentLevelNumber;
+    }
+
+    // returns the final level number
+    method int getFinalLevelNumber() {
+        return finalLevelNumber;
+    }
+
+    // returns the current level
+    method Level getCurrentLevel() {
+        return levels[currentLevelNumber];
+    }
+
+    // returns true if the current level is not the last
+    method bool hasNextLevel() {
+        return currentLevelNumber < finalLevelNumber;
+    }
+
+    // increments the current level
+    method void progressToNextLevel() {
+        let currentLevelNumber = currentLevelNumber + 1;
+        return;
+    }
+
+    // resets the level manager
+    method void reset() {
+        let currentLevelNumber = 0;
+        return;
+    }
+
+    method void dispose() {
+        do levels.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}

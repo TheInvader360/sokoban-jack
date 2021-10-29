@@ -1,0 +1,39 @@
+class Board {
+    field int width, height;
+    field Array cells;
+    field Player player;
+
+    // creates a board (map data encoding: Player "@", Box "$", Goal ".", Wall "#", Goal+Player "+", Goal+Box "*")
+    constructor Board new(int aWidth, int aHeight, string aMapData) {
+        let width = aWidth;
+        let height = aHeight;
+
+        //TODO: translate mapData into cells...
+
+        let player = Player.new(5, 5); //TODO: get player start position from mapData!
+
+        return this;
+    }
+
+    // returns the cell at the given location
+    method Cell get(int aX, int aY) {
+        //TODO: return &b.Cells[(y*b.Width)+x]
+        return null;
+    }
+
+    // returns true if every goal cell on the board has a box
+    method bool isComplete() {
+        //TODO: for _, cell := range b.Cells { if cell.TypeOf == CellTypeGoal && !cell.HasBox { return false } } return true
+        return false;
+    }
+
+    method Player getPlayer() {
+        return player;
+    }
+
+    method void dispose() {
+        do player.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}
