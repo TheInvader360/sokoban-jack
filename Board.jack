@@ -9,22 +9,57 @@ class Board {
         let height = aHeight;
 
         //TODO: translate mapData into cells...
+        let cells = Array.new(21);
 
-        let player = Player.new(5, 5); //TODO: get player start position from mapData!
+        // #######
+        let cells[0] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[1] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[2] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[3] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[4] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[5] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[6] = Cell.new(CellType.CellTypeWall(), false);
+
+        // #@ $ .#
+        let cells[7] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[8] = Cell.new(CellType.CellTypeNone(), false);
+        let cells[9] = Cell.new(CellType.CellTypeNone(), false);
+        let cells[10] = Cell.new(CellType.CellTypeNone(), true);
+        let cells[11] = Cell.new(CellType.CellTypeNone(), false);
+        let cells[12] = Cell.new(CellType.CellTypeGoal(), false);
+        let cells[13] = Cell.new(CellType.CellTypeWall(), false);
+
+        // #######
+        let cells[14] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[15] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[16] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[17] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[18] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[19] = Cell.new(CellType.CellTypeWall(), false);
+        let cells[20] = Cell.new(CellType.CellTypeWall(), false);
+
+        let player = Player.new(1, 1); //TODO: get player start position from mapData!
 
         return this;
     }
 
     // returns the cell at the given location
-    method Cell get(int aX, int aY) {
-        //TODO: return &b.Cells[(y*b.Width)+x]
-        return null;
+    method Cell getCell(int aX, int aY) {
+        return cells[(aY * width) + aX];
     }
 
     // returns true if every goal cell on the board has a box
     method bool isComplete() {
         //TODO: for _, cell := range b.Cells { if cell.TypeOf == CellTypeGoal && !cell.HasBox { return false } } return true
         return false;
+    }
+
+    method int getWidth() {
+        return width;
+    }
+
+    method Player getHeight() {
+        return height;
     }
 
     method Player getPlayer() {

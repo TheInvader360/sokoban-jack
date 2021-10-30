@@ -5,7 +5,10 @@ class Main {
         var View view;
         var Controller controller;
 
+        do CellType.init();
         do Direction.init();
+        do State.init();
+        
         let model = Model.new();
         let view = View.new(model);
         let controller = Controller.new(model);
@@ -15,7 +18,7 @@ class Main {
             do controller.handleInput();
             do model.update();
             do view.draw();
-            do Sys.wait(200);
+            do Sys.wait(50);
         }
 
         do model.dispose();

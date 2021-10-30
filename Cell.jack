@@ -9,6 +9,14 @@ class Cell {
         return this;
     }
 
+    method CellType getTypeOf() {
+        return typeOf;
+    }
+
+    method bool hasBox() {
+        return hasBox;
+    }
+
     method void dispose() {
         do Memory.deAlloc(this);
         return;

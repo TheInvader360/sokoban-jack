@@ -10,6 +10,18 @@ class Level {
         return this;
     }
 
+    method int getWidth() {
+        return width;
+    }
+
+    method int getHeight() {
+        return height;
+    }
+
+    method string getMapData() {
+        return mapData;
+    }
+
     method void dispose() {
         do Memory.deAlloc(this);
         return;

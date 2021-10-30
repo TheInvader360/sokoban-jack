@@ -2,21 +2,26 @@ class Controller {
     field Model model;
     field boolean running;
 
+    // creates a controller
     constructor Controller new(Model aModel) {
         let model = aModel;
         let running = true;
         return this;
     }
 
+    // starts a new game at level 1
     method void startNewGame() {
-        //TODO
+        var LevelManager levelManager;
+
+        let levelManager = model.getLevelManager();
+
+        do levelManager.reset();
+        do tryStartNextLevel();
+
         return;
     }
 
-    method boolean isRunning() {
-        return running;
-    }
-
+    // handles user input as appropriate (game state dependent behaviour)
     method void handleInput() {
         var char key;
 
@@ -43,6 +48,7 @@ class Controller {
         return;
     }
 
+    // move player (and an adjacent box where appropriate) in the specified direction if possible & check for board completion (and handle appropriately) if a box is moved
     method void tryMovePlayer(Direction aDirection) {
         var Board board;
         var Player player;
@@ -91,6 +97,50 @@ class Controller {
         do player.moveTo(targetX, targetY);
 
         return;
+    }
+
+    // starts the next level if the current one isn't the last, else sets game state to game complete
+    method void tryStartNextLevel() {
+        var LevelManager levelManager;
+        var Level level;
+        var Board board;
+
+        let levelManager = model.getLevelManager();
+
+        if (levelManager.hasNextLevel()) {
+            do levelManager.progressToNextLevel();
+
+            let level = levelManager.getCurrentLevel();
+            let board = Board.new(level.getWidth(), level.getHeight(), level.getMapData());
+
+            do model.setBoard(board);
+            do model.setState(State.StatePlaying());
+        }
+        else {
+            do model.setState(State.StateGameComplete());
+        }
+
+        return;
+    }
+
+    // resets the game board to the current level's starting state
+    method void restartLevel() {
+        var LevelManager levelManager;
+        var Level level;
+        var Board board;
+
+        let levelManager = model.getLevelManager();
+        let level = levelManager.getCurrentLevel();
+        let board = Board.new(level.getWidth(), level.getHeight(), level.getMapData());
+
+        do model.setBoard(board);
+        do model.setState(State.StatePlaying());
+
+        return;
+    }
+
+    method boolean isRunning() {
+        return running;
     }
 
     method void dispose() {
