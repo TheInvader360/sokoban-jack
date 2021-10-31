@@ -1,8 +1,8 @@
 class Cell {
     field CellType typeOf;
-    field bool hasBox;
+    field boolean hasBox;
 
-    constructor Cell new(CellType aTypeOf, bool aHasBox) {
+    constructor Cell new(CellType aTypeOf, boolean aHasBox) {
         let typeOf = aTypeOf;
         let hasBox = aHasBox;
 
@@ -13,8 +13,13 @@ class Cell {
         return typeOf;
     }
 
-    method bool hasBox() {
+    method boolean getHasBox() {
         return hasBox;
+    }
+
+    method void setHasBox(boolean aHasBox) {
+        let hasBox = aHasBox;
+        return;
     }
 
     method void dispose() {

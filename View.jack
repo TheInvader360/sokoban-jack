@@ -87,7 +87,7 @@ class View {
     }
 
     method void drawBoard() {
-        //TODO: game state and offsets...
+        //TODO: game state dependent drawing...
 
         var Board board;
         var int x, y, width, height, boardOffsetX, boardOffsetY;
@@ -116,7 +116,7 @@ class View {
                 }
                 else {
                     if (cell.getTypeOf() = CellType.CellTypeNone()) {
-                        if (cell.hasBox()) {
+                        if (cell.getHasBox()) {
                             do Sprites.drawBox(boardOffsetX + x + ((boardOffsetY + y) * 512));
                         }
                         else {
@@ -124,7 +124,7 @@ class View {
                         }
                     }
                     if (cell.getTypeOf() = CellType.CellTypeGoal()) {
-                        if (cell.hasBox()) {
+                        if (cell.getHasBox()) {
                             do Sprites.drawGoalBox(boardOffsetX + x + ((boardOffsetY + y) * 512));
                         }
                         else {

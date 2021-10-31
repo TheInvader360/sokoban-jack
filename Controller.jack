@@ -32,24 +32,32 @@ class Controller {
                 return;
             }
 
-            if ((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R())) {
-                do tryMovePlayer(key);
-            }
-            if (key = 32) {
-                // handle space key
-                //TODO...
-            }
-            if (key = 82) {
-                // handle R key
-                do restartLevel();
-            }
-            if (key = 83) {
-                // handle S key
-                do tryStartNextLevel();
-            }
-            if (key = 140) {
-                // handle escape key
+            if (key = 140) { // Escape = 140
                 let running = false;
+            }
+
+            if (model.getState() = State.StatePlaying()) {
+                if ((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R())) {
+                    do tryMovePlayer(key);
+                }
+                if (key = 82) { // R = 82
+                    do restartLevel();
+                }
+                if (key = 83) { // S = 83
+                    do tryStartNextLevel();
+                }
+            }
+
+            if (model.getState() = State.StateLevelComplete()) {
+                if (key = 32) { // (space) = 32
+                    do tryStartNextLevel();
+                }
+            }
+
+            if (model.getState() = State.StateGameComplete()) {
+                if (key = 32) { // (space) = 32
+                    do startNewGame();
+                }
             }
         }
 
@@ -61,6 +69,8 @@ class Controller {
         var Board board;
         var Player player;
         var int currentX, currentY, targetX, targetY, nextX, nextY;
+        var Cell targetCell;
+        var Cell nextCell;
 
         let board = model.getBoard();
         let player = board.getPlayer();
@@ -88,9 +98,24 @@ class Controller {
             let nextX = nextX + 2;
         }
 
-        //TODO: collision handling logic!
+        let targetCell = board.getCell(targetX, targetY);
 
-        do player.moveTo(targetX, targetY);
+        if (~(targetCell.getTypeOf() = CellType.CellTypeWall())) {
+            if (targetCell.getHasBox()) {
+                let nextCell = board.getCell(nextX, nextY);
+                if ((~(nextCell.getTypeOf() = CellType.CellTypeWall())) & (~(nextCell.getHasBox()))) { // if next cell is not of type wall and next cell does not have a box...
+                    do targetCell.setHasBox(false);
+                    do nextCell.setHasBox(true);
+                    do player.moveTo(targetX, targetY);
+                    if (board.isComplete()) {
+                        do model.setState(State.StateLevelComplete());
+                    }
+                }
+            }
+            else {
+                do player.moveTo(targetX, targetY);
+            }
+        }
 
         return;
     }

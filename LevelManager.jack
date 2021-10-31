@@ -31,7 +31,7 @@ class LevelManager {
     }
 
     // returns true if the current level is not the last
-    method bool hasNextLevel() {
+    method boolean hasNextLevel() {
         return currentLevelNumber < finalLevelNumber;
     }
 

@@ -55,9 +55,22 @@ class Board {
     }
 
     // returns true if every goal cell on the board has a box
-    method bool isComplete() {
-        //TODO: for _, cell := range b.Cells { if cell.TypeOf == CellTypeGoal && !cell.HasBox { return false } } return true
-        return false;
+    method boolean isComplete() {
+        var int i, numCells;
+        var Cell cell;
+
+        let i = 0;
+        let numCells = width * height;
+
+        while (i < numCells) {
+            let cell = cells[i];
+            if ((cell.getTypeOf() = CellType.CellTypeGoal()) & (~(cell.getHasBox()))) { // if cell is of type goal and cell does not have a box...
+                return false;
+            }
+            let i = i + 1;
+        }
+
+        return true;
     }
 
     method int getWidth() {
