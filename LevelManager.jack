@@ -5,11 +5,12 @@ class LevelManager {
     // creates a level manager
     constructor LevelManager new() {
         let currentLevelNumber = 0;
-        let finalLevelNumber = 2;
+        let finalLevelNumber = 3;
         let levels = Array.new(finalLevelNumber+1);
         let levels[0] = Level.new(0, 0, "");
         let levels[1] = Level.new(7, 3, "########@ $ .########");
         let levels[2] = Level.new(3, 7, "####.##$##@##$##.####");
+        let levels[3] = Level.new(22, 14, "#######################                *@$.##                    ##                    ##                    ##                    ##                    ##                    ##                    ##                    ##                    ##                    ##                    #######################");
 
         return this;
     }

@@ -14,8 +14,15 @@ class View {
         let board = model.getBoard();
         let player = board.getPlayer();
 
+        //TODO: maybe find a better way to handle this...
+        // clear the screen every few ticks
+        if (model.getTickAccumulator() = 0) {
+            do Screen.setColor(false);
+            do Screen.drawRectangle(0, 0, 511, 255);
+        }
+
         // draw some test sprites
-        let x = 11;
+        let x = 24;
         let y = 11;
         while (y < 15) {
             while (x < 31) {
@@ -61,7 +68,7 @@ class View {
                 let x = x + 1;
             }
             let y = y + 1;
-            let x = 11;
+            let x = 24;
         }
 
         // clear part of the screen
@@ -83,7 +90,7 @@ class View {
         //TODO: game state and offsets...
 
         var Board board;
-        var int x, y, width, height;
+        var int x, y, width, height, boardOffsetX, boardOffsetY;
         var Player player;
         var Cell cell;
 
@@ -92,6 +99,8 @@ class View {
         let y = 0;
         let width = board.getWidth();
         let height = board.getHeight();
+        let boardOffsetX = ((22 - width) / 2) + 1;
+		let boardOffsetY = ((14 - height) / 2) + 1;
         let player = board.getPlayer();
 
         while (y < height) {
@@ -99,31 +108,31 @@ class View {
                 let cell = board.getCell(x, y);
                 if ((player.getX() = x) & (player.getY() = y)) {
                     if (cell.getTypeOf() = CellType.CellTypeGoal()) {
-                        do Sprites.drawGoalPlayer(x + (y * 512));
+                        do Sprites.drawGoalPlayer(boardOffsetX + x + ((boardOffsetY + y) * 512));
                     }
                     else {
-                        do Sprites.drawPlayer(x + (y * 512));
+                        do Sprites.drawPlayer(boardOffsetX + x + ((boardOffsetY + y) * 512));
                     }
                 }
                 else {
                     if (cell.getTypeOf() = CellType.CellTypeNone()) {
                         if (cell.hasBox()) {
-                            do Sprites.drawBox(x + (y * 512));
+                            do Sprites.drawBox(boardOffsetX + x + ((boardOffsetY + y) * 512));
                         }
                         else {
-                            do Sprites.drawClear(x + (y * 512));
+                            do Sprites.drawClear(boardOffsetX + x + ((boardOffsetY + y) * 512));
                         }
                     }
                     if (cell.getTypeOf() = CellType.CellTypeGoal()) {
                         if (cell.hasBox()) {
-                            do Sprites.drawGoalBox(x + (y * 512));
+                            do Sprites.drawGoalBox(boardOffsetX + x + ((boardOffsetY + y) * 512));
                         }
                         else {
-                            do Sprites.drawGoal(x + (y * 512));
+                            do Sprites.drawGoal(boardOffsetX + x + ((boardOffsetY + y) * 512));
                         }
                     }
                     if (cell.getTypeOf() = CellType.CellTypeWall()) {
-                        do Sprites.drawWall(x + (y * 512));
+                        do Sprites.drawWall(boardOffsetX + x + ((boardOffsetY + y) * 512));
                     }
                 }
                 let x = x + 1;

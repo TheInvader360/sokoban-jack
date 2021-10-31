@@ -4,41 +4,47 @@ class Board {
     field Player player;
 
     // creates a board (map data encoding: Player "@", Box "$", Goal ".", Wall "#", Goal+Player "+", Goal+Box "*")
-    constructor Board new(int aWidth, int aHeight, string aMapData) {
+    constructor Board new(int aWidth, int aHeight, String aMapData) {
+        var int x, y;
+        var char cellChar;
+
         let width = aWidth;
         let height = aHeight;
+        let cells = Array.new(width * height);
+        let x = 0;
+        let y = 0;
 
-        //TODO: translate mapData into cells...
-        let cells = Array.new(21);
-
-        // #######
-        let cells[0] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[1] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[2] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[3] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[4] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[5] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[6] = Cell.new(CellType.CellTypeWall(), false);
-
-        // #@ $ .#
-        let cells[7] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[8] = Cell.new(CellType.CellTypeNone(), false);
-        let cells[9] = Cell.new(CellType.CellTypeNone(), false);
-        let cells[10] = Cell.new(CellType.CellTypeNone(), true);
-        let cells[11] = Cell.new(CellType.CellTypeNone(), false);
-        let cells[12] = Cell.new(CellType.CellTypeGoal(), false);
-        let cells[13] = Cell.new(CellType.CellTypeWall(), false);
-
-        // #######
-        let cells[14] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[15] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[16] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[17] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[18] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[19] = Cell.new(CellType.CellTypeWall(), false);
-        let cells[20] = Cell.new(CellType.CellTypeWall(), false);
-
-        let player = Player.new(1, 1); //TODO: get player start position from mapData!
+        while (y < height) {
+            while (x < width) {
+                let cellChar = aMapData.charAt((y * width) + x);
+                if (cellChar = 64) { // @ = 64
+                    let cells[(y * width) + x] = Cell.new(CellType.CellTypeNone(), false);
+                    let player = Player.new(x, y);
+                }
+                if (cellChar = 36) { // $ = 36
+                    let cells[(y * width) + x] = Cell.new(CellType.CellTypeNone(), true);
+                }
+                if (cellChar = 46) { // . = 46
+                    let cells[(y * width) + x] = Cell.new(CellType.CellTypeGoal(), false);
+                }
+                if (cellChar = 35) { // # = 35
+                    let cells[(y * width) + x] = Cell.new(CellType.CellTypeWall(), false);
+                }
+                if (cellChar = 43) { // + = 43
+                    let cells[(y * width) + x] = Cell.new(CellType.CellTypeGoal(), false);
+                    let player = Player.new(x, y);
+                }
+                if (cellChar = 42) { // * = 42
+                    let cells[(y * width) + x] = Cell.new(CellType.CellTypeGoal(), true);
+                }
+                if (cellChar = 32) { // (space) = 32
+                    let cells[(y * width) + x] = Cell.new(CellType.CellTypeNone(), false);
+                }
+                let x = x + 1;
+            }
+            let y = y + 1;
+            let x = 0;
+        }
 
         return this;
     }

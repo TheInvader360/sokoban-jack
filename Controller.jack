@@ -28,7 +28,7 @@ class Controller {
         let key = Keyboard.keyPressed();
 
         if (~(key = 0)) {
-            if (~((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R()) | (key = 32) | (key = 140))) {
+            if (~((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R()) | (key = 32) | (key = 82) | (key = 83) | (key = 140))) {
                 return;
             }
 
@@ -38,6 +38,14 @@ class Controller {
             if (key = 32) {
                 // handle space key
                 //TODO...
+            }
+            if (key = 82) {
+                // handle R key
+                do restartLevel();
+            }
+            if (key = 83) {
+                // handle S key
+                do tryStartNextLevel();
             }
             if (key = 140) {
                 // handle escape key
@@ -66,30 +74,18 @@ class Controller {
         if (aDirection = Direction.U()) {
             let targetY = targetY - 1;
             let nextY = nextY - 2;
-            if (targetY < 2) {
-                let targetY = 2;
-            }
         }
         if (aDirection = Direction.D()) {
             let targetY = targetY + 1;
             let nextY = nextY + 2;
-            if (targetY > 13) {
-                let targetY = 13;
-            }
         }
         if (aDirection = Direction.L()) {
             let targetX = targetX - 1;
             let nextX = nextX - 2;
-            if (targetX < 2) {
-                let targetX = 2;
-            }
         }
         if (aDirection = Direction.R()) {
             let targetX = targetX + 1;
             let nextX = nextX + 2;
-            if (targetX > 29) {
-                let targetX = 29;
-            }
         }
 
         //TODO: collision handling logic!
