@@ -14,9 +14,8 @@ class View {
         let board = model.getBoard();
         let player = board.getPlayer();
 
-        //TODO: maybe find a better way to handle this...
-        // clear the screen every few ticks
-        if (model.getTickAccumulator() = 0) {
+        // not very mvc, but the more usual "fully clear and redraw the screen on each frame" approach doesn't really suit the hack platform... 
+        if (model.isScreenDirty()) {
             do Screen.setColor(false);
             do Screen.drawRectangle(0, 0, 511, 255);
         }

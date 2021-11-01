@@ -16,8 +16,8 @@ class Main {
 
         while (controller.isRunning()) {
             do controller.handleInput();
-            do model.update();
             do view.draw();
+            do model.update();
             do Sys.wait(50);
         }
 

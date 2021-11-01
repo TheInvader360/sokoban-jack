@@ -3,11 +3,13 @@ class Model {
     field Board board;
     field State state;
     field int tickAccumulator;
+    field boolean screenDirty;
 
     constructor Model new() {
         let levelManager = LevelManager.new();
         let state = State.StatePlaying();
         let tickAccumulator = 0;
+        let screenDirty = false;
         return this;
     }
 
@@ -15,6 +17,9 @@ class Model {
         let tickAccumulator = tickAccumulator + 1;
         if (tickAccumulator > 20) {
             let tickAccumulator = 0;
+        }
+        if (screenDirty) {
+            let screenDirty = false;
         }
         return;
     }
@@ -35,6 +40,10 @@ class Model {
         return tickAccumulator;
     }
 
+    method boolean isScreenDirty() {
+        return screenDirty;
+    }
+
     method void setBoard(Board aBoard) {
         let board = aBoard;
         return;
@@ -42,6 +51,7 @@ class Model {
 
     method void setState(State aState) {
         let state = aState;
+        let screenDirty = true; // forces a full screen refresh on state change
         return;
     }
 
