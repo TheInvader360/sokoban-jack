@@ -1,8 +1,21 @@
 class View {
     field Model model;
+    field String controlInfoTitle;
+    field String controlInfoMove;
+    field String controlInfoReset;
+    field String controlInfoQuit;
+    field String controlInfoNext;
+    field String controlInfoRestart;
 
     constructor View new(Model aModel) {
         let model = aModel;
+        let controlInfoTitle = "---Controls---";
+        let controlInfoMove = "Cursors:  Move";
+        let controlInfoReset = "R:       Reset";
+        let controlInfoQuit = "Escape:   Quit";
+        let controlInfoNext = "Space:    Next";
+        let controlInfoRestart = "Space: Restart";
+
         return this;
     }
 
@@ -20,74 +33,58 @@ class View {
             do Screen.drawRectangle(0, 0, 511, 255);
         }
 
-        // draw some test sprites
-        let x = 24;
-        let y = 11;
-        while (y < 15) {
-            while (x < 31) {
-                if ((x > 10) | (x < 31) | (y > 10) | (y < 15)) {
-                    if (model.getTickAccumulator() < 2) {
-                        do Sprites.drawBox(x + (y * 512));
-                    }
-                    else {
-                        if (model.getTickAccumulator() < 4) {
-                            do Sprites.drawGoal(x + (y * 512));
-                        }
-                        else {
-                            if (model.getTickAccumulator() < 6) {
-                                do Sprites.drawGoalBox(x + (y * 512));
-                            }
-                            else {
-                                if (model.getTickAccumulator() < 8) {
-                                    do Sprites.drawGoalPlayer(x + (y * 512));
-                                }
-                                else {
-                                    if (model.getTickAccumulator() < 10) {
-                                        do Sprites.drawPlayer(x + (y * 512));
-                                    }
-                                    else {
-                                        if (model.getTickAccumulator() < 12) {
-                                            do Sprites.drawWall(x + (y * 512));
-                                        }
-                                        else {
-                                            if ((x = player.getX()) & (y = player.getY())) {
-                                                //draw the player
-                                                do Sprites.drawPlayer(player.getX() + (player.getY() * 512));
-                                            }
-                                            else {
-                                                do Sprites.drawClear(x + (y * 512));
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                let x = x + 1;
-            }
-            let y = y + 1;
-            let x = 24;
+        //TODO: draw logo
+
+        if (model.getState() = State.StatePlaying()) {
+            do drawBoard();
+
+            do drawLevelInfo();
+
+            // draw "playing" control info
+            do Output.moveCursor(17, 48);
+            do Output.printString(controlInfoTitle);
+            do Output.moveCursor(19, 48);
+            do Output.printString(controlInfoMove);
+            do Output.moveCursor(20, 48);
+            do Output.printString(controlInfoReset);
+            do Output.moveCursor(21, 48);
+            do Output.printString(controlInfoQuit);
         }
 
-        // clear part of the screen
-        do Screen.setColor(false);
-        do Screen.drawRectangle(0, 243, 15, 253);
+        if (model.getState() = State.StateLevelComplete()) {
+            do drawBoard();
 
-        // draw the tick accumulator's current value
-        do Screen.setColor(true);
-        do Output.moveCursor(22, 0);
-        do Output.printInt(model.getTickAccumulator());
+            do drawLevelInfo();
 
-        // draw the board
-        do drawBoard();
+            //TODO: draw flashing level complete message
+
+            // draw "level complete" control info
+            do Output.moveCursor(17, 48);
+            do Output.printString(controlInfoTitle);
+            do Output.moveCursor(19, 48);
+            do Output.printString(controlInfoNext);
+            do Output.moveCursor(21, 48);
+            do Output.printString(controlInfoQuit);
+        }
+
+        if (model.getState() = State.StateGameComplete()) {
+            //TODO: draw game complete message
+
+            //TODO: draw alternating congratulations message and smiley faces
+
+            // draw "game complete" control info
+            do Output.moveCursor(17, 48);
+            do Output.printString(controlInfoTitle);
+            do Output.moveCursor(19, 48);
+            do Output.printString(controlInfoRestart);
+            do Output.moveCursor(21, 48);
+            do Output.printString(controlInfoQuit);
+        }
 
         return;
     }
 
     method void drawBoard() {
-        //TODO: game state dependent drawing...
-
         var Board board;
         var int x, y, width, height, boardOffsetX, boardOffsetY;
         var Player player;
@@ -139,6 +136,37 @@ class View {
             let y = y + 1;
             let x = 0;
         }
+
+        return;
+    }
+
+    method void drawLevelInfo() {
+        var LevelManager levelManager;
+        var String levelInfo;
+        var int currentLevelNumber;
+        var Array currentLevelNumberDigits;
+        var int finalLevelNumber;
+        var Array finalLevelNumberDigits;
+
+        let levelManager = model.getLevelManager();
+        let levelInfo = "Level XX of YY";
+
+        let currentLevelNumber = levelManager.getCurrentLevelNumber();
+        let currentLevelNumberDigits = Array.new(2);
+        let currentLevelNumberDigits[0] = currentLevelNumber/10;
+        let currentLevelNumberDigits[1] = Utils.mod(currentLevelNumber, 10);
+        do levelInfo.setCharAt(6, 48 + currentLevelNumberDigits[0]); // 0 to 9 = 48 to 57
+        do levelInfo.setCharAt(7, 48 + currentLevelNumberDigits[1]); // 0 to 9 = 48 to 57
+
+        let finalLevelNumber = levelManager.getFinalLevelNumber();
+        let finalLevelNumberDigits = Array.new(2);
+        let finalLevelNumberDigits[0] = finalLevelNumber/10;
+        let finalLevelNumberDigits[1] = Utils.mod(finalLevelNumber, 10);
+        do levelInfo.setCharAt(12, 48 + finalLevelNumberDigits[0]); // 0 to 9 = 48 to 57
+        do levelInfo.setCharAt(13, 48 + finalLevelNumberDigits[1]); // 0 to 9 = 48 to 57
+
+        do Output.moveCursor(7, 48);
+        do Output.printString(levelInfo);
 
         return;
     }
