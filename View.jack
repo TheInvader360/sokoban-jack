@@ -6,6 +6,9 @@ class View {
     field String controlInfoQuit;
     field String controlInfoNext;
     field String controlInfoRestart;
+    field String messageLevelComplete;
+    field String messageGameComplete;
+    field String messageCongratulations;
 
     constructor View new(Model aModel) {
         let model = aModel;
@@ -15,6 +18,9 @@ class View {
         let controlInfoQuit = "Escape:   Quit";
         let controlInfoNext = "Space:    Next";
         let controlInfoRestart = "Space: Restart";
+        let messageLevelComplete = "LEVEL COMPLETE";
+        let messageGameComplete = "GAME COMPLETE!";
+        let messageCongratulations = "CONGRATULATIONS!";
 
         return this;
     }
@@ -33,7 +39,7 @@ class View {
             do Screen.drawRectangle(0, 0, 511, 255);
         }
 
-        //TODO: draw logo
+        do drawLogo();
 
         if (model.getState() = State.StatePlaying()) {
             do drawBoard();
@@ -56,7 +62,14 @@ class View {
 
             do drawLevelInfo();
 
-            //TODO: draw flashing level complete message
+            // draw flashing level complete message
+            if (model.getTickAccumulator() < 10) {
+                do Output.moveCursor(12, 48);
+                do Output.printString(messageLevelComplete);
+            } else {
+                do Screen.setColor(false);
+                do Screen.drawRectangle(384, 133, 494, 142);
+            }
 
             // draw "level complete" control info
             do Output.moveCursor(17, 48);
@@ -68,9 +81,20 @@ class View {
         }
 
         if (model.getState() = State.StateGameComplete()) {
-            //TODO: draw game complete message
+            // draw game complete message
+            do Output.moveCursor(10, 16);
+            do Output.printString(messageGameComplete);
 
-            //TODO: draw alternating congratulations message and smiley faces
+            // draw alternating congratulations message and smiley face border
+            if (model.getTickAccumulator() < 10) {
+                do Output.moveCursor(12, 15);
+                do Output.printString(messageCongratulations);
+                do drawGameCompleteBorder(false);
+            } else {
+                do Screen.setColor(false);
+                do Screen.drawRectangle(120, 133, 244, 141);
+                do drawGameCompleteBorder(true);
+            }
 
             // draw "game complete" control info
             do Output.moveCursor(17, 48);
@@ -80,6 +104,32 @@ class View {
             do Output.moveCursor(21, 48);
             do Output.printString(controlInfoQuit);
         }
+
+        return;
+    }
+
+    method void drawLogo() {
+        do Sprites.drawLogoA1(56 + (0 * 512));
+        do Sprites.drawLogoB1(57 + (0 * 512));
+        do Sprites.drawLogoC1(58 + (0 * 512));
+        do Sprites.drawLogoD1(59 + (0 * 512));
+        do Sprites.drawLogoE1(60 + (0 * 512));
+        do Sprites.drawLogoF1(61 + (0 * 512));
+        do Sprites.drawLogoG1(62 + (0 * 512));
+        do Sprites.drawLogoA2(56 + (1 * 512));
+        do Sprites.drawLogoB2(57 + (1 * 512));
+        do Sprites.drawLogoC2(58 + (1 * 512));
+        do Sprites.drawLogoD2(59 + (1 * 512));
+        do Sprites.drawLogoE2(60 + (1 * 512));
+        do Sprites.drawLogoF2(61 + (1 * 512));
+        do Sprites.drawLogoG2(62 + (1 * 512));
+        do Sprites.drawLogoA3(56 + (2 * 512));
+        do Sprites.drawLogoB3(57 + (2 * 512));
+        do Sprites.drawLogoC3(58 + (2 * 512));
+        do Sprites.drawLogoD3(59 + (2 * 512));
+        do Sprites.drawLogoE3(60 + (2 * 512));
+        do Sprites.drawLogoF3(61 + (2 * 512));
+        do Sprites.drawLogoG3(62 + (2 * 512));
 
         return;
     }
@@ -167,6 +217,31 @@ class View {
 
         do Output.moveCursor(7, 48);
         do Output.printString(levelInfo);
+
+        return;
+    }
+
+    method void drawGameCompleteBorder(boolean on) {
+        var int x, y;
+
+        let x = 1;
+        let y = 1;
+
+        while (y < 15) {
+            while (x < 23) {
+                if ((x = 1) | (x = 22) | (y = 1) | (y = 14)) {
+                    if (on) {
+                        do Sprites.drawPlayer(x + (y * 512));
+                    }
+                    else {
+                        do Sprites.drawClear(x + (y * 512));
+                    }
+                }
+                let x = x + 1;
+            }
+            let y = y + 1;
+            let x = 1;
+        }
 
         return;
     }
