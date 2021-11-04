@@ -41,6 +41,18 @@ class Controller {
             }
 
             if (~(lastTickKey = key)) {
+                if (model.getState() = State.StateGameComplete()) {
+                    if (key = 32) { // (space) = 32
+                        do startNewGame();
+                    }
+                }
+
+                if (model.getState() = State.StateLevelComplete()) {
+                    if (key = 32) { // (space) = 32
+                        do tryStartNextLevel();
+                    }
+                }
+
                 if (model.getState() = State.StatePlaying()) {
                     if ((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R())) {
                         do tryMovePlayer(key);
@@ -53,17 +65,6 @@ class Controller {
                     }
                 }
 
-                if (model.getState() = State.StateLevelComplete()) {
-                    if (key = 32) { // (space) = 32
-                        do tryStartNextLevel();
-                    }
-                }
-
-                if (model.getState() = State.StateGameComplete()) {
-                    if (key = 32) { // (space) = 32
-                        do startNewGame();
-                    }
-                }
             }
             let lastTickKey = key;
         }
