@@ -1,11 +1,14 @@
 class Controller {
     field Model model;
     field boolean running;
+    field char lastTickKey;
 
     // creates a controller
     constructor Controller new(Model aModel) {
         let model = aModel;
         let running = true;
+        let lastTickKey = 0;
+
         return this;
     }
 
@@ -29,6 +32,7 @@ class Controller {
 
         if (~(key = 0)) {
             if (~((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R()) | (key = 32) | (key = 82) | (key = 83) | (key = 140))) {
+                let lastTickKey = 0;
                 return;
             }
 
@@ -36,29 +40,35 @@ class Controller {
                 let running = false;
             }
 
-            if (model.getState() = State.StatePlaying()) {
-                if ((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R())) {
-                    do tryMovePlayer(key);
+            if (~(lastTickKey = key)) {
+                if (model.getState() = State.StatePlaying()) {
+                    if ((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R())) {
+                        do tryMovePlayer(key);
+                    }
+                    if (key = 82) { // R = 82
+                        do restartLevel();
+                    }
+                    if (key = 83) { // S = 83
+                        do tryStartNextLevel();
+                    }
                 }
-                if (key = 82) { // R = 82
-                    do restartLevel();
-                }
-                if (key = 83) { // S = 83
-                    do tryStartNextLevel();
-                }
-            }
 
-            if (model.getState() = State.StateLevelComplete()) {
-                if (key = 32) { // (space) = 32
-                    do tryStartNextLevel();
+                if (model.getState() = State.StateLevelComplete()) {
+                    if (key = 32) { // (space) = 32
+                        do tryStartNextLevel();
+                    }
                 }
-            }
 
-            if (model.getState() = State.StateGameComplete()) {
-                if (key = 32) { // (space) = 32
-                    do startNewGame();
+                if (model.getState() = State.StateGameComplete()) {
+                    if (key = 32) { // (space) = 32
+                        do startNewGame();
+                    }
                 }
             }
+            let lastTickKey = key;
+        }
+        else {
+            let lastTickKey = 0;
         }
 
         return;
