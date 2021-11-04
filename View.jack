@@ -218,6 +218,10 @@ class View {
         do Output.moveCursor(7, 48);
         do Output.printString(levelInfo);
 
+        do levelInfo.dispose();
+        do currentLevelNumberDigits.dispose();
+        do finalLevelNumberDigits.dispose();
+
         return;
     }
 

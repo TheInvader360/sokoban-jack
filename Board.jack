@@ -86,8 +86,21 @@ class Board {
     }
 
     method void dispose() {
+        var int i, numCells;
+        var Cell cell;
+
+        let i = 0;
+        let numCells = width * height;
+
+        while (i < numCells) {
+            let cell = cells[i];
+            do cell.dispose();
+            let i = i + 1;
+        }
+        do cells.dispose();
         do player.dispose();
         do Memory.deAlloc(this);
+
         return;
     }
 }

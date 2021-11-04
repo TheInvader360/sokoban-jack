@@ -45,6 +45,9 @@ class Model {
     }
 
     method void setBoard(Board aBoard) {
+        if (~(board = null)) {
+            do board.dispose();
+        }
         let board = aBoard;
         return;
     }
