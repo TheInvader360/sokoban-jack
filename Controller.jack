@@ -61,7 +61,7 @@ class Controller {
                         do restartLevel();
                     }
                     if (key = 83) { // S = 83
-                        do tryStartNextLevel();
+                        // do tryStartNextLevel(); // uncomment this line to enable cheating :)
                     }
                 }
 
