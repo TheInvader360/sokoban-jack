@@ -21,6 +21,7 @@ class Model {
         if (screenDirty) {
             let screenDirty = false;
         }
+
         return;
     }
 
@@ -49,12 +50,14 @@ class Model {
             do board.dispose();
         }
         let board = aBoard;
+
         return;
     }
 
     method void setState(State aState) {
         let state = aState;
         let screenDirty = true; // forces a full screen refresh on state change
+
         return;
     }
 
@@ -62,6 +65,7 @@ class Model {
         do levelManager.dispose();
         do board.dispose();
         do Memory.deAlloc(this);
+
         return;
     }
 }

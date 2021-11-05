@@ -24,6 +24,7 @@ class Level {
 
     method void dispose() {
         do Memory.deAlloc(this);
+
         return;
     }
 }

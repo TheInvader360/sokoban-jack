@@ -35,24 +35,20 @@ class Controller {
                 let lastTickKey = 0;
                 return;
             }
-
             if (key = 140) { // Escape = 140
                 let running = false;
             }
-
             if (~(lastTickKey = key)) {
                 if (model.getState() = State.StateGameComplete()) {
                     if (key = 32) { // (space) = 32
                         do startNewGame();
                     }
                 }
-
                 if (model.getState() = State.StateLevelComplete()) {
                     if (key = 32) { // (space) = 32
                         do tryStartNextLevel();
                     }
                 }
-
                 if (model.getState() = State.StatePlaying()) {
                     if ((key = Direction.U()) | (key = Direction.D()) | (key = Direction.L()) | (key = Direction.R())) {
                         do tryMovePlayer(key);
@@ -64,7 +60,6 @@ class Controller {
                         // do tryStartNextLevel(); // uncomment this line to enable cheating :)
                     }
                 }
-
             }
             let lastTickKey = key;
         }
@@ -177,6 +172,7 @@ class Controller {
 
     method void dispose() {
         do Memory.deAlloc(this);
+
         return;
     }
 }

@@ -5,6 +5,7 @@ class CellType {
         let CellTypeNone = 0;
         let CellTypeGoal = 1;
         let CellTypeWall = 2;
+
         return;
     }
 

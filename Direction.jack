@@ -6,6 +6,7 @@ class Direction {
         let D = 133;
         let L = 130;
         let R = 132;
+
         return;
     }
 

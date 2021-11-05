@@ -45,18 +45,21 @@ class LevelManager {
     // increments the current level
     method void progressToNextLevel() {
         let currentLevelNumber = currentLevelNumber + 1;
+
         return;
     }
 
     // resets the level manager
     method void reset() {
         let currentLevelNumber = 0;
+
         return;
     }
 
     method void dispose() {
         do levels.dispose();
         do Memory.deAlloc(this);
+
         return;
     }
 }

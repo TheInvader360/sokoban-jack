@@ -225,7 +225,7 @@ class View {
         return;
     }
 
-    method void drawGameCompleteBorder(boolean on) {
+    method void drawGameCompleteBorder(boolean aShowSmileyFaces) {
         var int x, y;
 
         let x = 1;
@@ -234,7 +234,7 @@ class View {
         while (y < 15) {
             while (x < 23) {
                 if ((x = 1) | (x = 22) | (y = 1) | (y = 14)) {
-                    if (on) {
+                    if (aShowSmileyFaces) {
                         do Sprites.drawPlayer(x + (y * 512));
                     }
                     else {
@@ -252,6 +252,7 @@ class View {
 
     method void dispose() {
         do Memory.deAlloc(this);
+
         return;
     }
 }

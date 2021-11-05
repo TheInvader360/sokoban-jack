@@ -19,11 +19,13 @@ class Cell {
 
     method void setHasBox(boolean aHasBox) {
         let hasBox = aHasBox;
+
         return;
     }
 
     method void dispose() {
         do Memory.deAlloc(this);
+
         return;
     }
 }

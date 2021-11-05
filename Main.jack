@@ -12,6 +12,7 @@ class Main {
         let model = Model.new();
         let view = View.new(model);
         let controller = Controller.new(model);
+
         do controller.startNewGame();
 
         while (controller.isRunning()) {
